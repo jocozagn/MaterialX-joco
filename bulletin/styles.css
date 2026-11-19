@@ -1,0 +1,587 @@
+/* Bulletin scolaire — reproduction fidèle A4 (210×297 mm) */
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --peach: #f8cbac;
+  --peach-dark: #f4b083;
+  --orange: #f56503;
+  --pink: #fd6c9e;
+  --label: #303030;
+  --navy: #000080;
+  --blue: #0080ff;
+  --footer-blue: #020262;
+  --gray: #e0e0e0;
+  --gray-light: #f2f2f2;
+  --border: #000;
+  --border-soft: #808080;
+  --border-dark: #303030;
+}
+
+html, body {
+  background: #c8c8c8;
+  font-family: Helvetica, Arial, sans-serif;
+  color: #000;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.page {
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  margin: 12px auto;
+  background: #fff;
+  padding: 5mm 5mm 4mm;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  border: 0.75pt solid #ddd;
+}
+
+.page::before {
+  content: "";
+  position: absolute;
+  inset: 3.5mm;
+  border: 0.5pt solid #eee;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.watermark {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  width: 72%;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.22;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page > *:not(.watermark) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ——— En-tête ——— */
+.letterhead {
+  width: 100%;
+  margin-bottom: 2.5mm;
+}
+
+.letterhead img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ——— Bandeau période ——— */
+.period-banner {
+  background: var(--orange);
+  border-radius: 6px;
+  text-align: center;
+  padding: 3.2mm 0;
+  margin: 0 8mm 2.8mm;
+}
+
+.period-banner span {
+  font-weight: 700;
+  font-size: 14pt;
+  letter-spacing: 0.2px;
+  color: #000;
+}
+
+/* ——— Infos élève ——— */
+.student-box {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  background: var(--peach);
+  border: 1.5pt solid var(--orange);
+  outline: 1pt solid var(--orange);
+  outline-offset: 1.6pt;
+  padding: 2.2mm 3mm 2.2mm 4mm;
+  margin-bottom: 2.5mm;
+  min-height: 22mm;
+}
+
+.student-fields {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.2mm;
+  padding-right: 4mm;
+}
+
+.student-fields .row {
+  display: flex;
+  align-items: baseline;
+  gap: 2mm;
+}
+
+.student-fields .row-3 {
+  display: grid;
+  grid-template-columns: 1.1fr 1.1fr 1fr;
+  gap: 2mm;
+}
+
+.student-fields .label {
+  color: var(--label);
+  font-size: 9pt;
+  white-space: nowrap;
+}
+
+.student-fields .value {
+  font-weight: 700;
+  font-size: 11pt;
+  color: #000;
+}
+
+.student-fields .value-sm {
+  font-size: 9pt;
+}
+
+.student-fields .value-muted {
+  font-size: 9pt;
+  font-weight: 400;
+  color: var(--label);
+}
+
+.qr {
+  width: 14mm;
+  height: 14mm;
+  object-fit: contain;
+  align-self: center;
+  image-rendering: pixelated;
+  background: #fff;
+  padding: 0.5mm;
+}
+
+/* ——— Tableau notes ——— */
+.grades {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 8pt;
+  font-weight: 700;
+}
+
+.grades th,
+.grades td {
+  border: 0.5pt solid #000;
+  padding: 1.1mm 1.2mm;
+  vertical-align: middle;
+}
+
+.grades thead th {
+  background: var(--peach);
+  font-weight: 400;
+  font-size: 9pt;
+  text-align: center;
+}
+
+.grades .head-sub th {
+  font-size: 9pt;
+  font-weight: 400;
+  background: var(--peach);
+}
+
+.col-coef { width: 8%; }
+.col-matiere { width: 32%; }
+.col-note { width: 11%; }
+.col-total { width: 11%; }
+.col-moy { width: 12%; }
+.col-rang { width: 10%; }
+.col-apprec { width: 16%; }
+.col-moyenne-group { font-size: 9pt; }
+
+.section-row td {
+  text-align: center;
+  color: var(--pink);
+  font-weight: 700;
+  font-size: 8pt;
+  background: #fff;
+  padding: 1.3mm;
+}
+
+.grades td.c {
+  text-align: center;
+}
+
+.grades td.matiere {
+  text-align: left;
+  padding-left: 2.5mm;
+}
+
+.grades td.rang {
+  text-align: center;
+  color: var(--orange);
+}
+
+.legend {
+  text-align: center;
+  font-size: 7pt;
+  font-style: italic;
+  margin: 1.8mm 0 2mm;
+  color: #000;
+}
+
+/* ——— Grille basse ——— */
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1.55fr 0.7fr 1.35fr;
+  gap: 0;
+  border: 0.5pt solid var(--border-soft);
+  margin-bottom: 2.5mm;
+  font-size: 8.5pt;
+}
+
+.panel {
+  border-right: 0.5pt solid var(--border-soft);
+  min-height: 34mm;
+}
+
+.panel:last-child {
+  border-right: none;
+}
+
+.panel-title {
+  background: var(--gray);
+  border-bottom: 0.5pt solid var(--border-soft);
+  text-align: center;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 8pt;
+  padding: 1.4mm 1mm;
+}
+
+/* Conduite */
+.conduite-split {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  min-height: 28mm;
+}
+
+.conduite-left {
+  border-right: 0.5pt solid var(--border-soft);
+}
+
+.exclu-row {
+  display: grid;
+  grid-template-columns: 1fr 7mm 10mm;
+  align-items: center;
+  border-bottom: 0.5pt solid var(--border-dark);
+  min-height: 5.2mm;
+  padding: 0 1mm;
+  font-size: 8pt;
+  color: var(--label);
+}
+
+.exclu-row .blank {
+  background: var(--gray-light);
+  border-left: 0.5pt solid var(--border-soft);
+  border-right: 0.5pt solid var(--border-soft);
+  height: 100%;
+  min-height: 5.2mm;
+}
+
+.exclu-row .jour {
+  font-style: italic;
+  color: var(--navy);
+  text-align: center;
+  font-weight: 700;
+}
+
+.check-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 0.5pt solid var(--border-dark);
+  padding: 0.9mm 1.5mm;
+  color: var(--label);
+  font-size: 8pt;
+  min-height: 5mm;
+}
+
+.check-row:last-child {
+  border-bottom: none;
+}
+
+.checkbox {
+  display: inline-block;
+  width: 3.2mm;
+  height: 3.2mm;
+  border: 1.2pt solid #000;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.conduite-right {
+  display: flex;
+}
+
+.abs-table {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+}
+
+.abs-table th,
+.abs-table td {
+  border: 0.5pt solid var(--border-soft);
+  text-align: center;
+  padding: 1.2mm 1mm;
+}
+
+.abs-table th {
+  font-style: italic;
+  font-weight: 700;
+  font-size: 9pt;
+  color: var(--navy);
+  background: var(--gray);
+}
+
+.abs-table .th-nat {
+  color: #000;
+}
+
+.abs-table .nat {
+  font-style: italic;
+  color: var(--navy);
+  font-size: 9pt;
+  text-align: left;
+  padding-left: 2mm !important;
+}
+
+.abs-table .peach {
+  background: var(--peach);
+  min-width: 7mm;
+  height: 45%;
+}
+
+/* Conseil */
+.conseil-table {
+  width: 100%;
+  border-collapse: collapse;
+  height: calc(100% - 7mm);
+}
+
+.conseil-table th,
+.conseil-table td {
+  border: 0.5pt solid var(--border-soft);
+  text-align: center;
+  padding: 1.2mm;
+}
+
+.conseil-table th {
+  color: var(--navy);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 9pt;
+  background: #fff;
+}
+
+.conseil-table .avg-label {
+  color: var(--label);
+  font-size: 8.5pt;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  padding: 1.5mm;
+}
+
+.conseil-table .avg-value {
+  background: var(--gray-light);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 9pt;
+  padding: 1.5mm;
+}
+
+/* Travail */
+.travail-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  height: calc(100% - 7mm);
+}
+
+.travail-table td {
+  border: 0.5pt solid var(--border-soft);
+  text-align: center;
+  vertical-align: middle;
+  padding: 1.2mm 1mm;
+  font-size: 8.5pt;
+}
+
+.travail-table .lbl-blue {
+  color: var(--blue);
+  font-style: italic;
+}
+
+.travail-table .val-orange {
+  color: var(--orange);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 11pt;
+  background: var(--gray-light);
+}
+
+.travail-table .lbl-navy {
+  color: var(--navy);
+  font-style: italic;
+}
+
+.travail-table .val-dark {
+  color: var(--label);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 11pt;
+}
+
+.travail-table .lbl-orange {
+  color: var(--orange);
+  font-size: 8.5pt;
+  line-height: 1.2;
+  height: 10mm;
+}
+
+.travail-table .lbl-dark {
+  color: var(--label);
+  font-size: 8.5pt;
+}
+
+.travail-table .total-head {
+  background: #808080;
+  color: var(--orange);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 10pt;
+}
+
+.travail-table .val-cell {
+  background: var(--gray-light);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 9pt;
+}
+
+.travail-table .total-val {
+  font-size: 11pt;
+}
+
+/* ——— Signatures ——— */
+.signatures {
+  display: grid;
+  grid-template-columns: 1.05fr 1.15fr 1.5fr 1.15fr;
+  gap: 0;
+  margin-bottom: 4mm;
+}
+
+.sig-col {
+  border: 0.5pt solid var(--border-soft);
+  margin-right: -0.5pt;
+}
+
+.sig-head {
+  background: var(--peach-dark);
+  text-align: center;
+  font-weight: 700;
+  font-size: 8pt;
+  padding: 1.5mm 1mm;
+  border-bottom: 0.5pt solid var(--border-soft);
+}
+
+.sig-body {
+  height: 24mm;
+  background: #fff;
+}
+
+.chart-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1mm;
+}
+
+.chart-body img {
+  max-width: 100%;
+  max-height: 22mm;
+  object-fit: contain;
+}
+
+.sig-body.dots {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 3mm 4mm;
+}
+
+.dotline {
+  border-bottom: 1.5pt dotted #000;
+  height: 0;
+}
+
+/* ——— Pied de page ——— */
+.school-footer {
+  text-align: center;
+  font-family: "Arial Black", "Arial Bold", Helvetica, sans-serif;
+  font-weight: 900;
+  font-size: 12pt;
+  color: var(--footer-blue);
+  letter-spacing: 0.3px;
+  margin-top: 2mm;
+}
+
+/* Impression */
+@media print {
+  html, body {
+    background: #fff;
+  }
+  .page {
+    margin: 0;
+    box-shadow: none;
+    width: 210mm;
+    height: 297mm;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  body {
+    padding: 0;
+  }
+  .page {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 3vw;
+    box-shadow: none;
+  }
+  .period-banner {
+    margin-inline: 0;
+  }
+  .student-fields .row-3 {
+    grid-template-columns: 1fr;
+  }
+  .bottom-grid {
+    grid-template-columns: 1fr;
+  }
+  .signatures {
+    grid-template-columns: 1fr 1fr;
+  }
+  .grades {
+    font-size: 7pt;
+  }
+}
