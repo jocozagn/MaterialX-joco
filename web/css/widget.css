@@ -1,235 +1,341 @@
-/* KIU ecommerce booking widget — visual replica for the Ceiba book page */
-
-.booking-frame {
-    height: auto !important;
-    line-height: normal !important;
-    background: transparent;
+:root {
+  --color-primary: #337321;
+  --color-onPrimary: #e6ebf3;
+  --color-secondary: #ab7305;
+  --color-surface: #fff;
+  --color-onSurface: #53595f;
+  --color-background: #eff1f7;
+  --color-overlay-05: rgba(33, 33, 33, 0.05);
+  --color-overlay-10: rgba(33, 33, 33, 0.1);
+  --color-overlay-20: rgba(33, 33, 33, 0.2);
+  --color-overlay-30: rgba(33, 33, 33, 0.3);
+  --b-radius-sm: 3px;
+  --b-radius-md: 5px;
+  --font-size-sm: 0.8rem;
+  --input-height: 3rem;
+  --input-border-color: var(--color-overlay-20);
 }
 
-.kiu-widget {
-    --kiu-primary: #337321;
-    --kiu-on-primary: #fff;
-    --kiu-surface: #fff;
-    --kiu-on-surface: #53595f;
-    --kiu-border: rgba(33, 33, 33, 0.12);
-    --kiu-overlay: rgba(33, 33, 33, 0.05);
-    --kiu-radius: 3px;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    font-family: "Nunito Sans", "Roboto", system-ui, sans-serif;
-    color: var(--kiu-on-surface);
-    background: transparent;
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  background: var(--color-background);
+  color: var(--color-onSurface);
+  font-family: "Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.4;
 }
 
-.kiu-tabs {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    overflow-x: auto;
+.widgetBooking__main {
+  width: 100%;
+  max-width: 1400px;
 }
 
-.kiu-tabs li {
-    background: var(--kiu-surface);
+.widgetBooking__content {
+  display: flex;
+  flex-direction: column;
 }
 
-.kiu-tabs li:first-child {
-    border-radius: var(--kiu-radius) 0 0 0;
+.widgetBooking__tab {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  font-size: var(--font-size-sm);
 }
 
-.kiu-tab {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.5rem 1.2rem;
-    border: 1px solid var(--kiu-border);
-    border-bottom: 0;
-    background: var(--kiu-overlay);
-    color: var(--kiu-on-surface);
-    font-size: 0.8rem;
-    cursor: pointer;
+.widgetBooking__tabItem {
+  background: var(--color-surface);
 }
 
-.kiu-tabs li.is-active .kiu-tab {
-    background: transparent;
-    border-bottom: 2px solid var(--kiu-primary);
-    color: var(--kiu-on-surface);
+.widgetBooking__tabItem:first-child {
+  border-radius: var(--b-radius-sm) 0 0 0;
 }
 
-.kiu-tabs li.is-active .kiu-tab i {
-    color: var(--kiu-primary);
+.widgetBooking__tabLink {
+  display: block;
+  padding: 0.5rem 1.2rem;
+  text-decoration: none;
+  color: var(--color-onSurface);
+  background: var(--color-overlay-05);
+  border: 1px solid var(--color-overlay-10);
+  border-bottom: 0;
+  text-align: center;
 }
 
-.kiu-panel {
-    background: var(--kiu-surface);
-    border: 1px solid var(--kiu-border);
-    border-top: 0;
-    border-radius: 0 0 5px 5px;
-    padding: 1rem 1.25rem 1.25rem;
-    box-shadow: 0 10px 20px rgba(33, 33, 33, 0.05);
+.widgetBooking__tabItem.active .widgetBooking__tabLink {
+  background: transparent;
+  border-bottom: 2px solid var(--color-primary);
 }
 
-.kiu-toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 1rem;
-    margin-bottom: 1rem;
+.widgetBooking__tabContent {
+  background: var(--color-surface);
+  border-radius: 0 0 var(--b-radius-sm) var(--b-radius-sm);
+  box-shadow: 0 10px 20px var(--color-overlay-05);
 }
 
-.kiu-select select,
-.kiu-promo input,
-.kiu-field select,
-.kiu-input input {
-    width: 100%;
-    height: 3rem;
-    border: 1px solid rgba(33, 33, 33, 0.2);
-    border-radius: var(--kiu-radius);
-    background: #fff;
-    color: inherit;
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
+.Searcher.surface {
+  padding: 1rem 1.25rem 1.25rem;
 }
 
-.kiu-select select {
-    min-width: 160px;
-    height: 2.4rem;
-    font-size: 0.875rem;
-    padding: 0 0.75rem;
+.searchForm__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1rem;
 }
 
-.kiu-promo input {
-    min-width: 140px;
-    height: 2.4rem;
-    font-size: 0.875rem;
+.inputSelect,
+.inputText,
+.datepickerInput {
+  display: block;
+  color: inherit;
 }
 
-.kiu-form {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr auto;
-    gap: 1rem 1.25rem;
-    align-items: end;
+.inputSelect__label,
+.inputText__label,
+.datepickerInput__label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
 }
 
-.kiu-col h3 {
-    margin: 0 0 0.65rem;
-    font-size: 1rem;
-    font-weight: 700;
-    color: #3a3f44;
+.inputSelect__input,
+.inputText__input {
+  display: block;
+  width: 100%;
+  height: var(--input-height);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--input-border-color);
+  border-radius: var(--b-radius-sm);
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  appearance: auto;
 }
 
-.kiu-route-fields,
-.kiu-date-fields {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
+.inputSelect.--sm .inputSelect__input,
+.inputText.--sm .inputText__input,
+.inputText.--tag .inputText__input {
+  height: 2.25rem;
+  font-size: var(--font-size-sm);
+  padding: 0.35rem 0.75rem;
 }
 
-.kiu-pax-fields {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.5rem;
+.inputSelect.--tag .inputSelect__input,
+.inputText.--tag {
+  background: transparent;
+  border-color: transparent;
 }
 
-.kiu-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    font-size: 0.8rem;
+.inputSelect.--tag .inputSelect__input {
+  border: 0;
+  background: transparent;
+  height: 2rem;
+  padding-left: 0;
+  padding-right: 1.25rem;
+  min-width: 7rem;
+  cursor: pointer;
 }
 
-.kiu-field[hidden] {
-    display: none !important;
+.countrySettings .inputSelect__input {
+  min-width: 12rem;
 }
 
-.kiu-dates.is-oneway .kiu-date-fields {
-    grid-template-columns: 1fr;
+.inputText.--tag.--caret {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 2rem;
+  padding: 0 0.25rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
 }
 
-.kiu-field > span:first-child {
-    font-weight: 500;
+.inputText.--tag.--caret i {
+  opacity: 0.45;
+  font-size: 0.75rem;
 }
 
-.kiu-input {
-    position: relative;
-    display: block;
+.inputText__group {
+  position: relative;
 }
 
-.kiu-input i {
-    position: absolute;
-    left: 0.75rem;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    height: 1rem;
-    width: 1rem;
-    color: rgba(83, 89, 95, 0.55);
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.inputText__icon {
+  position: absolute;
+  z-index: 1;
+  left: 0.65rem;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 1.1rem;
+  height: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  pointer-events: none;
+  color: var(--color-onSurface);
 }
 
-.kiu-input input {
-    padding-left: 2.4rem;
+.inputText__group .inputText__input {
+  padding-left: 2.35rem;
 }
 
-.kiu-input input:focus,
-.kiu-field select:focus,
-.kiu-select select:focus,
-.kiu-promo input:focus {
-    outline: none;
-    border-color: var(--kiu-primary);
-    box-shadow: 0 0 0 1px var(--kiu-primary);
+.inputText__group.--date {
+  background: var(--color-overlay-05);
+  border-radius: var(--b-radius-sm);
 }
 
-.kiu-submit {
-    display: flex;
-    align-items: flex-end;
-    min-width: 140px;
+.inputText__group.--date .inputText__input {
+  background: transparent;
 }
 
-.kiu-search {
-    width: 100%;
-    height: 3rem;
-    border: 0;
-    border-radius: var(--kiu-radius);
-    background: var(--kiu-primary);
-    color: var(--kiu-on-primary);
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
+.inputSelect__input:focus,
+.inputText__input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
 }
 
-.kiu-search:hover {
-    background: #27571a;
+.promoCode {
+  position: relative;
 }
 
-.kiu-toast {
-    margin-top: 0.75rem;
-    padding: 0.65rem 0.85rem;
-    border-radius: var(--kiu-radius);
-    background: #eff1f7;
-    color: #525252;
-    font-size: 0.85rem;
+.promoCode__modal {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  min-width: 260px;
+}
+
+.promoCode__modalContainer {
+  padding: 1rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-overlay-10);
+  border-radius: var(--b-radius-md);
+  box-shadow: 0 10px 24px var(--color-overlay-10);
+}
+
+.promoCode__modalBtns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.searchForm__grid {
+  display: grid;
+  grid-template-columns: 1.35fr 0.95fr 0.95fr auto;
+  gap: 1rem 1.25rem;
+  align-items: end;
+}
+
+.searchForm__subtitle {
+  display: block;
+  margin-bottom: 0.55rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #3a3f44;
+}
+
+.searchForm__OD,
+.searchForm__datepicker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.searchForm__datepicker.is-oneway {
+  grid-template-columns: 1fr;
+}
+
+.searchForm__pax {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.searchForm__submit {
+  min-width: 140px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-overlay-20);
+  border-radius: var(--b-radius-sm);
+  background: #fff;
+  color: var(--color-onSurface);
+  font: inherit;
+  cursor: pointer;
+  padding: 0.45rem 0.9rem;
+}
+
+.btn.--sm {
+  font-size: var(--font-size-sm);
+  padding: 0.35rem 0.75rem;
+}
+
+.btn-primary,
+.searchForm__searchBtn {
+  width: 100%;
+  height: var(--input-height);
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+}
+
+.btn-primary:hover,
+.searchForm__searchBtn:hover {
+  background: #27571a;
+  border-color: #27571a;
+}
+
+.searchForm__toast {
+  margin: 0.85rem 0 0;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--b-radius-sm);
+  background: var(--color-overlay-05);
+  font-size: var(--font-size-sm);
+}
+
+[hidden] {
+  display: none !important;
 }
 
 @media (max-width: 1100px) {
-    .kiu-form {
-        grid-template-columns: 1fr 1fr;
-    }
-    .kiu-submit {
-        grid-column: 1 / -1;
-    }
+  .searchForm__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .searchForm__submit {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (max-width: 720px) {
-    .kiu-form,
-    .kiu-route-fields,
-    .kiu-date-fields {
-        grid-template-columns: 1fr;
-    }
-    .kiu-panel {
-        padding: 1rem;
-    }
+  body { padding: 0.75rem; }
+  .searchForm__grid,
+  .searchForm__OD,
+  .searchForm__datepicker {
+    grid-template-columns: 1fr;
+  }
+  .Searcher.surface {
+    padding: 0.85rem;
+  }
 }

@@ -1,63 +1,65 @@
 (function () {
-  function hideLoader() {
-    var el = document.getElementById("initial-spinner");
-    if (!el) return;
-    el.classList.add("is-done");
-    el.setAttribute("aria-busy", "false");
-    window.setTimeout(function () {
-      if (el && el.parentNode) el.parentNode.removeChild(el);
-    }, 400);
+  var trip = document.getElementById("trip-type");
+  var returnWrap = document.getElementById("return-wrap");
+  var datepicker = document.querySelector(".searchForm__datepicker");
+  var returnInput = document.getElementById("return_date");
+
+  function syncTripType() {
+    var isRound = trip && trip.value === "round_trip";
+    if (returnWrap) returnWrap.hidden = !isRound;
+    if (datepicker) datepicker.classList.toggle("is-oneway", !isRound);
+    if (returnInput) returnInput.required = !!isRound;
   }
 
-  if (document.readyState === "complete") {
-    window.setTimeout(hideLoader, 900);
-  } else {
-    window.addEventListener("load", function () {
-      window.setTimeout(hideLoader, 900);
+  if (trip) {
+    trip.addEventListener("change", syncTripType);
+    syncTripType();
+  }
+
+  var promoToggle = document.getElementById("promo-toggle");
+  var promoModal = document.getElementById("promo-modal");
+  var promoLabel = document.getElementById("promo-label");
+  var promoInput = document.getElementById("promo_code");
+  var promoCancel = document.getElementById("promo-cancel");
+  var promoContinue = document.getElementById("promo-continue");
+
+  function closePromo() {
+    if (promoModal) promoModal.hidden = true;
+    if (promoToggle) promoToggle.setAttribute("aria-expanded", "false");
+  }
+
+  if (promoToggle && promoModal) {
+    promoToggle.addEventListener("click", function () {
+      var open = promoModal.hidden;
+      promoModal.hidden = !open;
+      promoToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open && promoInput) promoInput.focus();
     });
   }
 
-  var trip = document.getElementById("trip-type");
-  var ret = document.querySelector(".kiu-return");
-  var dates = document.querySelector(".kiu-dates");
-  if (trip && ret) {
-    var syncReturn = function () {
-      var isRound = trip.value === "round";
-      ret.hidden = !isRound;
-      if (dates) dates.classList.toggle("is-oneway", !isRound);
-      var input = ret.querySelector("input");
-      if (input) input.required = isRound;
-    };
-    trip.addEventListener("change", syncReturn);
-    syncReturn();
+  if (promoCancel) promoCancel.addEventListener("click", closePromo);
+
+  if (promoContinue) {
+    promoContinue.addEventListener("click", function () {
+      if (promoLabel && promoInput) {
+        promoLabel.textContent = promoInput.value.trim() || "Promo code";
+      }
+      closePromo();
+    });
   }
 
+  document.addEventListener("click", function (e) {
+    if (!promoModal || promoModal.hidden) return;
+    var root = document.querySelector(".promoCode");
+    if (root && !root.contains(e.target)) closePromo();
+  });
+
   var form = document.getElementById("search-form");
+  var toast = document.getElementById("toast");
   if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var existing = form.parentNode.querySelector(".kiu-toast");
-      if (existing) existing.remove();
-      var toast = document.createElement("p");
-      toast.className = "kiu-toast";
-      toast.textContent =
-        "Design demo — search is not connected to a live booking API.";
-      form.parentNode.appendChild(toast);
+      if (toast) toast.hidden = false;
     });
-  }
-
-  var newsletter = document.getElementById("newsletter-form");
-  if (newsletter) {
-    newsletter.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var result = document.getElementById("newsletter-result");
-      if (result) result.hidden = false;
-    });
-  }
-
-  // Enable booking frame interaction (mirrors original iframe hover behavior)
-  var section = document.querySelector(".booking-section");
-  if (section) {
-    section.classList.add("is-using");
   }
 })();
