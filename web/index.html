@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Booking widget</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/widget.css">
+</head>
+<body>
+  <div class="widgetBooking__main">
+    <div class="widgetBooking__content">
+      <ul class="widgetBooking__tab">
+        <li class="widgetBooking__tabItem active">
+          <a href="#searchflight" class="widgetBooking__tabLink"><span>Flights</span></a>
+        </li>
+      </ul>
+
+      <div class="widgetBooking__tabContent">
+        <div class="Searcher surface">
+          <form class="searchForm" id="search-form" autocomplete="off">
+            <div class="searchForm__top">
+              <div class="searchForm__flightType">
+                <label class="inputSelect --sm --tag">
+                  <select id="trip-type" class="inputSelect__input" aria-label="Trip type">
+                    <option value="one_way" selected>one way</option>
+                    <option value="round_trip">round trip</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="countrySettings">
+                <label class="inputSelect --tag --sm">
+                  <select id="currency" class="inputSelect__input" aria-label="Currency">
+                    <option value="141">XAF-EQUATORIAL GUINEA</option>
+                    <option value="149">XAF-CAMEROUN</option>
+                    <option value="150">XAF-CONGO BRAZAVILLE</option>
+                    <option value="151">XAF-GABON</option>
+                    <option value="153">XAF-CENTRAL AFRICA</option>
+                    <option value="154">XOF-BENIN</option>
+                    <option value="155">XOF-IVORY COAST</option>
+                    <option value="156">XOF - TOGO</option>
+                    <option value="157">XOF-SENEGAL</option>
+                    <option value="158">XOF-GUINEA BISSAU</option>
+                    <option value="159">XOF-MALI</option>
+                    <option value="160">XOF-NIGER</option>
+                    <option value="161">USD-GAMBIA</option>
+                    <option value="162">USD-SAO TOME</option>
+                    <option value="164">USD-GUINEA CONAKRY</option>
+                    <option value="165">USD-LIBERIA</option>
+                    <option value="166">USD-UNITED STATES</option>
+                    <option value="168">EUR-SPAIN</option>
+                    <option value="169">EUR-FRANCE</option>
+                    <option value="170">EUR-PORTUGAL</option>
+                    <option value="171">NGN-NIGERIA</option>
+                    <option value="173">ZAR-SOUTH AFRICA</option>
+                    <option value="174">XAF-CHAD</option>
+                    <option value="175">USD-CONGO KINSHASA</option>
+                    <option value="196">GHS-GHANA</option>
+                    <option value="197">CAD-CANADA</option>
+                    <option value="198">SLL-SIERRA LEONE</option>
+                    <option value="200">USD-GHANA</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="promoCode">
+                <button type="button" class="inputText --tag --sm --caret" id="promo-toggle" aria-expanded="false">
+                  <span id="promo-label">Promo code</span>
+                  <i class="fas fa-caret-down" aria-hidden="true"></i>
+                </button>
+                <div class="promoCode__modal" id="promo-modal" hidden>
+                  <div class="promoCode__modalContainer surface">
+                    <label class="inputText --sm">
+                      <span class="inputText__label">Promo code</span>
+                      <span class="inputText__group">
+                        <span class="inputText__icon"><i class="fas fa-tag"></i></span>
+                        <input type="text" id="promo_code" name="promo_code" maxlength="15" class="inputText__input" placeholder="">
+                      </span>
+                    </label>
+                    <div class="promoCode__modalBtns">
+                      <button type="button" class="btn --sm" id="promo-cancel">Cancel</button>
+                      <button type="button" class="btn --sm btn-primary" id="promo-continue">Continue</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="searchForm__grid">
+              <div class="searchForm__block">
+                <span class="searchForm__subtitle">Route</span>
+                <div class="searchForm__OD">
+                  <div class="inputText">
+                    <label class="inputText__label" for="origin">Flying from*</label>
+                    <div class="inputText__group">
+                      <span class="inputText__icon"><i class="fas fa-plane"></i></span>
+                      <input type="text" id="origin" name="origin" class="inputText__input" placeholder="Origin" list="airports" required>
+                    </div>
+                  </div>
+                  <div class="inputText">
+                    <label class="inputText__label" for="destination">Flying to*</label>
+                    <div class="inputText__group">
+                      <span class="inputText__icon"><i class="fas fa-map-marker-alt"></i></span>
+                      <input type="text" id="destination" name="destination" class="inputText__input" placeholder="Destination" list="airports" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="searchForm__block">
+                <span class="searchForm__subtitle">Dates</span>
+                <div class="searchForm__datepicker">
+                  <div class="datepickerInput">
+                    <label class="datepickerInput__label" for="departure_date">Date*</label>
+                    <div class="inputText__group --date">
+                      <span class="inputText__icon"><i class="far fa-calendar"></i></span>
+                      <input type="text" id="departure_date" name="departure_date" class="inputText__input" placeholder="Departure" required>
+                    </div>
+                  </div>
+                  <div class="datepickerInput" id="return-wrap" hidden>
+                    <label class="datepickerInput__label" for="return_date">Return</label>
+                    <div class="inputText__group --date">
+                      <span class="inputText__icon"><i class="far fa-calendar"></i></span>
+                      <input type="text" id="return_date" name="return_date" class="inputText__input" placeholder="Return">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="searchForm__block">
+                <span class="searchForm__subtitle">Passengers</span>
+                <div class="searchForm__pax">
+                  <label class="inputSelect --sm">
+                    <span class="inputSelect__label">Adults</span>
+                    <select name="adults" class="inputSelect__input" aria-label="Adults">
+                      <option>1</option><option>2</option><option>3</option><option>4</option>
+                      <option>5</option><option>6</option><option>7</option><option>8</option><option>9</option>
+                    </select>
+                  </label>
+                  <label class="inputSelect --sm">
+                    <span class="inputSelect__label">Children</span>
+                    <select name="children" class="inputSelect__input" aria-label="Children">
+                      <option>0</option><option>1</option><option>2</option><option>3</option>
+                      <option>4</option><option>5</option><option>6</option><option>7</option><option>8</option>
+                    </select>
+                  </label>
+                  <label class="inputSelect --sm">
+                    <span class="inputSelect__label">Infants</span>
+                    <select name="infants" class="inputSelect__input" aria-label="Infants">
+                      <option>0</option><option>1</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+
+              <div class="searchForm__submit">
+                <button type="submit" class="btn btn-primary searchForm__searchBtn">Search</button>
+              </div>
+            </div>
+          </form>
+          <p class="searchForm__toast" id="toast" hidden>Demo only — not connected to a live booking API.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <datalist id="airports">
+    <option value="Malabo (SSG)"></option>
+    <option value="Bata (BSG)"></option>
+    <option value="Mengomeyén (GEM)"></option>
+    <option value="Annobón (NBN)"></option>
+    <option value="Douala (DLA)"></option>
+    <option value="Lomé (LFW)"></option>
+    <option value="Cotonou (COO)"></option>
+  </datalist>
+
+  <script src="js/widget.js"></script>
+</body>
+</html>
